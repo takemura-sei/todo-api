@@ -1,18 +1,19 @@
-import { Request, response, Response } from "express";
-
-let todos = [
-  { id: 1, title: '買い物', done: false },
-  { id: 2, title: '勉強', done: false },
-]
+import { Request, Response } from "express";
+import prisma from "../lib/prisma";
 
 // GET /api/todos
-export const getTodos = (req: Request, res: Response) => {
+export const getTodos = async (req: Request, res: Response) => {
+  const todos = await prisma.todo.findMany({
+    orderBy: { createdAt: 'desc' }
+  })
   res.json(todos)
 }
 
 // GET /api/todos/:id
-export const getTodoById = (req: Request, res: Response) => {
-  const todo = todos.find(t => t.id === Number(req.params.id))
+export const getTodoById = async (req: Request, res: Response) => {
+  const todo = await prisma.todo.findUnique({
+    where: { id: Number(req.params.id) }
+  })
   if (!todo) {
     res.status(404).json({ message: 'Not found' })
     return
@@ -21,31 +22,34 @@ export const getTodoById = (req: Request, res: Response) => {
 }
 
 // POST /api/todos
-export const createTodo = (req: Request, res: Response) => {
+export const createTodo = async (req: Request, res: Response) => {
   const { title } = req.body
   if (!title) {
     res.status(400).json({ message: 'title is required' })
     return
   }
-  const newTodo = { id: Date.now(), title, done: false }
-  todos.push(newTodo)
-  res.status(201).json(newTodo)
+  const todo = await prisma.todo.create({
+    data: { title }
+  })
+  res.status(201).json(todo)
 }
 
 // PATCH /api/todos/:id
-export const updateTodo = (req: Request, res: Response) => {
-  const todo = todos.find(t => t.id === Number(req.params.id))
-  if (!todo) {
-    res.status(404).json({ message: 'Not found' })
-    return
-  }
-  if (req.body.title !== undefined) todo.title = req.body.title
-  if (req.body.done !== undefined) todo.done = req.body.done
+export const updateTodo = async (req: Request, res: Response) => {
+  const todo = await prisma.todo.update({
+    where: { id: Number(req.params.id) },
+    data: {
+      ...(req.body.title !== undefined && { title: req.body.title }),
+      ...(req.body.done !== undefined && { done: req.body.done })
+    }
+  })
   res.json(todo)
 }
 
 // DELETE /api/todos/:id
-export const deleteTodo = (req: Request, res: Response) => {
-  todos = todos.filter(t => t.id !== Number(req.params.id))
+export const deleteTodo = async (req: Request, res: Response) => {
+  await prisma.todo.delete({
+    where: { id: Number(req.params.id) }
+  })
   res.status(204).send()
 }
