@@ -1,73 +1,73 @@
 # Todo API - Express + TypeScript + Prisma
 
-A production-ready REST API for todo management with user authentication, built with modern backend technologies and best practices.
+モダンなバックエンド技術とベストプラクティスで構築された、ユーザー認証付きTodo管理用の本番環境対応REST API。
 
-## Overview
+## 概要
 
-### Why This Project?
+### なぜこのプロジェクトを作ったか
 
-Created to demonstrate backend development skills with TypeScript, ORM integration, and secure authentication patterns. This project showcases clean architecture and separation of concerns.
+TypeScript、ORM統合、安全な認証パターンを使用したバックエンド開発スキルを示すために作成しました。このプロジェクトはクリーンなアーキテクチャと関心の分離を実装しています。
 
-### What It Does
+### 何ができるか
 
-- User authentication with JWT tokens
-- Full CRUD operations for todos
-- User-Todo relationships with database constraints
-- Type-safe database queries with Prisma ORM
-- PostgreSQL database via Supabase
+- JWTトークンによるユーザー認証
+- Todoの完全なCRUD操作
+- データベース制約付きユーザー-Todo関係
+- Prisma ORMによる型安全なデータベースクエリ
+- Supabase経由のPostgreSQLデータベース
 
-## Tech Stack
+## 技術スタック
 
-- **Runtime**: Node.js 18+
-- **Framework**: Express.js 5.2+
-- **Language**: TypeScript 6.0+
-- **ORM**: Prisma 7.6+ with PostgreSQL adapter
-- **Database**: Supabase PostgreSQL
-- **Authentication**: JWT (jsonwebtoken) + bcrypt
-- **Dev Tools**: nodemon, ts-node
+- **ランタイム**: Node.js 18+
+- **フレームワーク**: Express.js 5.2+
+- **言語**: TypeScript 6.0+
+- **ORM**: Prisma 7.6+ (PostgreSQLアダプター付き)
+- **データベース**: Supabase PostgreSQL
+- **認証**: JWT (jsonwebtoken) + bcrypt
+- **開発ツール**: nodemon、ts-node
 
-## Key Technical Achievements
+## 主要な技術的成果
 
-### Architecture & Design Patterns
+### アーキテクチャとデザインパターン
 
-- **MVC Pattern**: Clean separation of routes, controllers, and business logic
-- **Prisma ORM Integration**: Type-safe database queries with automatic migration support
-- **Middleware Architecture**: Reusable authentication middleware for route protection
-- **Error Handling**: Centralized error handling with proper HTTP status codes
+- **MVCパターン**: ルート、コントローラー、ビジネスロジックのクリーンな分離
+- **Prisma ORM統合**: 自動マイグレーションサポート付き型安全データベースクエリ
+- **ミドルウェアアーキテクチャ**: ルート保護のための再利用可能な認証ミドルウェア
+- **エラーハンドリング**: 適切なHTTPステータスコード付き集中型エラーハンドリング
 
-### Database Design
+### データベース設計
 
-- **Relational Schema**: User-Todo one-to-many relationship
-- **Prisma 7.x Migration**: Successfully upgraded to latest Prisma with PostgreSQL adapter
-- **Connection Pooling**: Optimized database connections via Prisma connection pool
+- **リレーショナルスキーマ**: ユーザー-Todo一対多関係
+- **Prisma 7.xマイグレーション**: PostgreSQLアダプターを使用した最新Prismaへのアップグレード成功
+- **コネクションプーリング**: Prismaコネクションプールによる最適化されたデータベース接続
 
-### Security
+### セキュリティ
 
-- **Password Hashing**: bcrypt with salt rounds
-- **JWT Authentication**: Secure token-based auth with expiration
-- **Environment Variables**: Sensitive credentials isolated in .env
-- **Input Validation**: Request validation for all endpoints
+- **パスワードハッシング**: ソルトラウンド付きbcrypt
+- **JWT認証**: 有効期限付き安全なトークンベース認証
+- **環境変数**: .envで分離された機密認証情報
+- **入力バリデーション**: 全エンドポイントのリクエストバリデーション
 
-## Project Structure
+## プロジェクト構造
 
 ```
 src/
 ├── controllers/
-│   └── todoController.ts    # Business logic for Todo CRUD
+│   └── todoController.ts    # Todo CRUDのビジネスロジック
 ├── routes/
-│   └── todos.ts             # API endpoint definitions
+│   └── todos.ts             # APIエンドポイント定義
 ├── lib/
-│   └── prisma.ts            # Prisma client singleton
+│   └── prisma.ts            # Prismaクライアントシングルトン
 ├── middleware/
-│   └── auth.ts              # JWT authentication middleware
-└── index.ts                 # Express app entry point
+│   └── auth.ts              # JWT認証ミドルウェア
+└── index.ts                 # Expressアプリエントリーポイント
 
 prisma/
-├── schema.prisma            # Database schema definition
-└── migrations/              # Database migrations
+├── schema.prisma            # データベーススキーマ定義
+└── migrations/              # データベースマイグレーション
 ```
 
-## Database Schema
+## データベーススキーマ
 
 ```prisma
 model User {
@@ -94,29 +94,29 @@ model Todo {
 }
 ```
 
-## API Endpoints
+## APIエンドポイント
 
-### Authentication
-
-```
-POST   /api/auth/register    Register new user
-POST   /api/auth/login       Login and receive JWT token
-GET    /api/auth/me          Get current user info (protected)
-```
-
-### Todos
+### 認証
 
 ```
-GET    /api/todos            Get all todos for current user
-POST   /api/todos            Create new todo
-GET    /api/todos/:id        Get specific todo
-PUT    /api/todos/:id        Update todo
-DELETE /api/todos/:id        Delete todo
+POST   /api/auth/register    新規ユーザー登録
+POST   /api/auth/login       ログインしてJWTトークンを取得
+GET    /api/auth/me          現在のユーザー情報を取得（保護）
 ```
 
-### Example Requests
+### Todo
 
-**Register User:**
+```
+GET    /api/todos            現在のユーザーの全Todoを取得
+POST   /api/todos            新規Todo作成
+GET    /api/todos/:id        特定のTodoを取得
+PUT    /api/todos/:id        Todoを更新
+DELETE /api/todos/:id        Todoを削除
+```
+
+### リクエスト例
+
+**ユーザー登録:**
 
 ```bash
 curl -X POST http://localhost:3000/api/auth/register \
@@ -124,11 +124,11 @@ curl -X POST http://localhost:3000/api/auth/register \
   -d '{
     "email": "user@example.com",
     "password": "securePassword123",
-    "name": "John Doe"
+    "name": "田中太郎"
   }'
 ```
 
-**Login:**
+**ログイン:**
 
 ```bash
 curl -X POST http://localhost:3000/api/auth/login \
@@ -139,111 +139,111 @@ curl -X POST http://localhost:3000/api/auth/login \
   }'
 ```
 
-**Create Todo (requires JWT token):**
+**Todo作成（JWTトークンが必要）:**
 
 ```bash
 curl -X POST http://localhost:3000/api/todos \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{
-    "title": "Learn Prisma",
-    "description": "Complete Prisma ORM tutorial",
+    "title": "Prismaを学ぶ",
+    "description": "Prisma ORMチュートリアルを完了する",
     "completed": false
   }'
 ```
 
-## Setup Instructions
+## セットアップ手順
 
-### Prerequisites
+### 前提条件
 
 - Node.js 18+
-- PostgreSQL database (Supabase recommended)
+- PostgreSQLデータベース（Supabase推奨）
 
-### Supabase Setup
+### Supabaseセットアップ
 
-1. Create a free account at [supabase.com](https://supabase.com)
-2. Create a new project
-3. Get your PostgreSQL connection string from Project Settings > Database
-4. Note: The Prisma schema will automatically create tables on first migration
+1. [supabase.com](https://supabase.com)で無料アカウントを作成
+2. 新しいプロジェクトを作成
+3. Project Settings > DatabaseからPostgreSQL接続文字列を取得
+4. 注：Prismaスキーマが最初のマイグレーション時に自動的にテーブルを作成します
 
-### Local Development
+### ローカル開発
 
 ```bash
-# Clone the repository
+# リポジトリをクローン
 git clone https://github.com/takemura-sei/todo-api.git
 cd todo-api
 
-# Install dependencies
+# 依存関係をインストール
 npm install
 
-# Create .env file (copy from .env.example)
+# .envファイルを作成（.env.exampleからコピー）
 cp .env.example .env
 
-# Edit .env with your credentials:
+# .envに認証情報を編集:
 # DATABASE_URL="postgresql://user:password@host:5432/database"
 # JWT_SECRET="your-secret-key"
 
-# Generate Prisma client
+# Prismaクライアントを生成
 npx prisma generate
 
-# Run database migrations
+# データベースマイグレーションを実行
 npx prisma migrate dev
 
-# Optional: Seed database with sample data
+# オプション：サンプルデータでデータベースをシード
 npx prisma db seed
 
-# Start development server
+# 開発サーバーを起動
 npm run dev
 ```
 
-The API will be available at `http://localhost:3000`
+APIは`http://localhost:3000`で利用可能になります
 
-### Environment Variables
+### 環境変数
 
-See `.env.example` for required environment variables:
+必要な環境変数は`.env.example`を参照:
 
 ```env
 DATABASE_URL="postgresql://postgres:password@localhost:5432/postgres"
 JWT_SECRET="your-secret-key-here"
 ```
 
-Generate secure JWT secret:
+安全なJWTシークレットを生成:
 
 ```bash
 openssl rand -base64 64
 ```
 
-## Authentication Flow
+## 認証フロー
 
-1. User registers via `/api/auth/register`
-2. Password hashed with bcrypt
-3. User logs in via `/api/auth/login`
-4. JWT token returned with user ID and expiration
-5. Client includes token in `Authorization: Bearer <token>` header
-6. Auth middleware validates token on protected routes
-7. User ID extracted from token for database queries
+1. ユーザーが`/api/auth/register`経由で登録
+2. bcryptでパスワードをハッシュ化
+3. ユーザーが`/api/auth/login`経由でログイン
+4. ユーザーIDと有効期限付きJWTトークンを返却
+5. クライアントが`Authorization: Bearer <token>`ヘッダーにトークンを含める
+6. 認証ミドルウェアが保護されたルートでトークンを検証
+7. データベースクエリのためにトークンからユーザーIDを抽出
 
-## What I Learned
+## 学んだこと
 
-- **Prisma ORM**: Mastered schema design, migrations, and type-safe queries
-- **TypeScript Backend**: Implemented full type safety across Express app
-- **JWT Authentication**: Designed secure token-based auth system
-- **Database Relationships**: Modeled one-to-many relationships with foreign keys
-- **MVC Architecture**: Structured code for maintainability and scalability
-- **Prisma 7.x Migration**: Successfully upgraded to latest Prisma with PostgreSQL adapter
+- **Prisma ORM**: スキーマ設計、マイグレーション、型安全クエリの習得
+- **TypeScript バックエンド**: Expressアプリ全体で完全な型安全性を実装
+- **JWT認証**: 安全なトークンベース認証システムの設計
+- **データベースリレーションシップ**: 外部キー付き一対多関係のモデリング
+- **MVCアーキテクチャ**: 保守性と拡張性のためのコード構造化
+- **Prisma 7.xマイグレーション**: PostgreSQLアダプター付き最新Prismaへのアップグレード成功
 
-## Future Improvements
+## 今後の改善予定
 
-- Add unit and integration tests (Jest)
-- Implement rate limiting for API endpoints
-- Add todo categories and tags
-- Implement todo sharing between users
-- Add todo due dates and reminders
-- Create OpenAPI/Swagger documentation
-- Add Docker containerization
-- Implement caching with Redis
-- Add GraphQL endpoint alternative
+- ユニットテストと統合テストの追加（Jest）
+- APIエンドポイントのレート制限実装
+- Todoカテゴリーとタグの追加
+- ユーザー間でのTodo共有機能実装
+- Todo期限日とリマインダーの追加
+- OpenAPI/Swaggerドキュメントの作成
+- Dockerコンテナ化の追加
+- Redisによるキャッシング実装
+- GraphQLエンドポイントの代替追加
 
-## License
+## ライセンス
 
-MIT License
+MITライセンス
