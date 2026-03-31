@@ -23,13 +23,17 @@ export const getTodoById = async (req: Request, res: Response) => {
 
 // POST /api/todos
 export const createTodo = async (req: Request, res: Response) => {
-  const { title } = req.body
+  const { title, userId } = req.body
   if (!title) {
     res.status(400).json({ message: 'title is required' })
     return
   }
+  if (!userId) {
+    res.status(400).json({ message: 'userId is required' })
+    return
+  }
   const todo = await prisma.todo.create({
-    data: { title }
+    data: { title, userId: Number(userId) }
   })
   res.status(201).json(todo)
 }
