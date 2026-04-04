@@ -1,5 +1,5 @@
-import 'dotenv/config'
 import express from 'express'
+import cors from 'cors'
 import todosRouter from './routes/todos'
 import authRouter from './routes/auth'
 import { authenticate } from './middleware/authControllers'
@@ -7,6 +7,10 @@ import { authenticate } from './middleware/authControllers'
 const app = express()
 const PORT = 3001
 
+app.use(cors({
+  origin: 'http://localhost:3000', // Nuxtのオリジン
+  credentials: true
+}))
 app.use(express.json())
 
 // 認証不要
