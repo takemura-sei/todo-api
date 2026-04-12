@@ -5,7 +5,7 @@ import authRouter from './routes/auth'
 import { authenticate } from './middleware/authControllers'
 
 const app = express()
-const PORT = 3001
+const PORT = 8080
 
 app.use(cors({
   origin: 'http://localhost:3000', // Nuxtのオリジン
