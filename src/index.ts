@@ -1,14 +1,24 @@
+import 'dotenv/config'
 import express from 'express'
-import { listen } from 'node:quic'
+import cors from 'cors'
+import todosRouter from './routes/todos'
+import authRouter from './routes/auth'
+import { authenticate } from './middleware/authControllers'
 
 const app = express()
-const PORT = 3001
+const PORT = 8080
 
+app.use(cors({
+  origin: 'http://localhost:3000', // Nuxtのオリジン
+  credentials: true
+}))
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello from Todo API!'})
-})
+// 認証不要
+app.use('/api/auth', authRouter)
+
+// 認証不要（authenticateミドルウェアを挟む）
+app.use('/api/todos',authenticate ,todosRouter)
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
